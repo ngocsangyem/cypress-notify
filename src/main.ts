@@ -1,4 +1,5 @@
 import { createReadStream } from 'fs';
+import path from 'path';
 import { setFailed, getInput, debug, setOutput } from '@actions/core';
 import { WebClient } from '@slack/web-api';
 import { globby } from 'globby';
@@ -18,10 +19,10 @@ import { sendViaBot } from './utils/client';
   const slack = new WebClient(getInput('token'));
   debug('Slack SDK initialized successfully');
 
-  debug('Checking for videos and/or screenshots from cypress');
+  debug('Checking for screenshots from cypress');
   const getScreenshots = async() => {
     const paths = await globby(
-      workdir,
+      path.resolve(process.cwd(), workdir),
       {
         expandDirectories: {
           files: ['*'],
@@ -41,9 +42,7 @@ import { sendViaBot } from './utils/client';
     return;
   }
 
-  debug(
-    `${screenshots.length} screenshots`
-  );
+  debug(`Found ${screenshots.length} screenshots`);
 
   debug('Sending initial slack message');
   const result = await sendViaBot(
