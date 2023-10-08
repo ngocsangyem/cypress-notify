@@ -6,5 +6,5 @@ export declare enum cypressRunStatus {
 export interface CypressSlackReporterChatBotOpts {
     channel: string;
     headingText?: string;
-    status: cypressRunStatus;
+    status?: cypressRunStatus;
 }
