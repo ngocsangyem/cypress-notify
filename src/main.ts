@@ -47,7 +47,7 @@ import { sendViaBot } from './utils/client';
 
   debug('Sending initial slack message');
   const result = await sendViaBot(
-    { status: cypressRunStatus['test:failed'], channel: 'github-test' },
+    { status: cypressRunStatus['test:failed'], channel: channels },
     slack,
     [
       Blocks.Section({
