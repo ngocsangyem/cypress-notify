@@ -1,6 +1,6 @@
 import { Appendable, BlockBuilder } from 'slack-block-builder/dist/internal/index';
 import { cypressRunStatus } from '../types/Slack';
-export declare const messageConstructor: ({ channel, customBlocks, branchName, }: {
+export declare const messageConstructor: ({ channel, customBlocks, branchName, actionUrl, prUrl }: {
     headingText?: string | undefined;
     channel?: string | undefined;
     status?: cypressRunStatus | undefined;
@@ -8,4 +8,6 @@ export declare const messageConstructor: ({ channel, customBlocks, branchName, }
     branchName: string;
     userName: string;
     userAvatar: string;
+    actionUrl: string;
+    prUrl: string;
 }) => Readonly<import("slack-block-builder").SlackMessageDto>;
