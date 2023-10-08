@@ -1,9 +1,8 @@
 import { createReadStream } from 'fs';
-import path from 'path';
 import { setFailed, getInput, debug, setOutput } from '@actions/core';
 import { WebClient } from '@slack/web-api';
-import { globby } from 'globby';
 import { Blocks } from 'slack-block-builder';
+import walkSync from 'walk-sync';
 import { cypressRunStatus } from './types/Slack';
 import { sendViaBot } from './utils/client';
 
@@ -20,21 +19,8 @@ import { sendViaBot } from './utils/client';
   debug('Slack SDK initialized successfully');
 
   debug('Checking for screenshots from cypress');
-  const getScreenshots = async() => {
-    const paths = await globby(
-      path.resolve(process.cwd(), workdir),
-      {
-        expandDirectories: {
-          files: ['*'],
-          extensions: ['png']
-        }
-      }
-    );
-  
-    return paths;
-  };
 
-  const screenshots = await getScreenshots();
+  const screenshots = walkSync(workdir, { globs: ['**/*.png'] });
 
   if (screenshots.length <= 0) {
     debug('No screenshots found. Exiting!');
