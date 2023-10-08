@@ -1,9 +1,7 @@
 import { createReadStream } from 'fs';
 import { setFailed, getInput, debug, setOutput } from '@actions/core';
 import { WebClient } from '@slack/web-api';
-import { Blocks } from 'slack-block-builder';
 import walkSync from 'walk-sync';
-import { cypressRunStatus } from './types/Slack';
 import { sendViaBot } from './utils/client';
 
 (async(): Promise<void> => {
@@ -32,13 +30,8 @@ import { sendViaBot } from './utils/client';
 
   debug('Sending initial slack message');
   const result = await sendViaBot(
-    { status: cypressRunStatus['test:failed'], channel: channels },
+    { channel: channels },
     slack,
-    [
-      Blocks.Section({
-        text: '<http://sometesturl.com$/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>'
-      })
-    ]
   );
 
   const threadID = result.ts;
