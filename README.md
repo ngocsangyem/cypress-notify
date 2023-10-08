@@ -1,8 +1,7 @@
-# GitHub Actions Template
+# Cypress notify
 
 [![CI Status](https://github.com/ngocsangyem/cypress-notify/workflows/CI/badge.svg)](https://github.com/ngocsangyem/cypress-notify/actions)
 [![codecov](https://codecov.io/gh/ngocsangyem/cypress-notify/branch/master/graph/badge.svg)](https://codecov.io/gh/ngocsangyem/cypress-notify)
-[![CodeFactor](https://www.codefactor.io/repository/github/ngocsangyem/cypress-notify/badge)](https://www.codefactor.io/repository/github/ngocsangyem/cypress-notify)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/ngocsangyem/cypress-notify/blob/master/LICENSE)
 
 > Inspiration from [cypress-slack-video-upload-action](https://github.com/trymbill/cypress-slack-video-upload-action) and [cypress-slack-reporter](https://github.com/YOU54F/cypress-plugins/tree/master/cypress-slack-reporter) using [gh-actions-template](https://github.com/technote-space/gh-actions-template)
@@ -14,6 +13,8 @@
 <details>
 <summary>Details</summary>
 
+- [Inputs](#inputs)
+- [Examples](#examples)
 - [Setup](#setup)
   - [yarn](#yarn)
   - [npm](#npm)
@@ -35,6 +36,85 @@
 
 </details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Inputs
+
+### `token`
+
+**Required** Slack app token. See [Internal app tokens](https://slack.com/intl/en-ru/help/articles/215770388-Create-and-regenerate-API-tokens#internal-app-tokens)
+
+- Create an app
+- Under **Bot Token Scopes**, add `files:write` and `chat:write` permissions
+- Install the app into your workspace
+- Invite the bot to whatever channels you want to send the videos and screenshots to `/invite <botname>`
+- Grab the `Bot User OAuth Token` from the `OAuth & Permissions` page
+- Add that token as a secret to your Github repo's `Actions Secrets` found under `Settings -> Secrets` (in the examples below we call it `SLACK_TOKEN`)
+
+### `channels`
+
+**Required** Slack channels to upload to
+
+### `workdir`
+
+**Optional** The folder where Cypress stores screenshots and videos on the build machine.
+
+Default: `cypress`
+
+(this relative path resolves to `/home/runner/work/<REPO_NAME>/<REPO_NAME>/cypress`)
+
+If your project uses Cypress from the project root folder, the default value will work for you.
+But if your project uses Cypress in a subfolder (like most monorepos), you'll need to provide the relative path to that folder
+(i.e. `e2e/cypress`).
+(Don't include a trailing slash on your path!)
+
+## Examples
+
+### Upload results after every push
+
+```yml
+on: [push]
+
+jobs:
+  test-and-upload-results:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: 'Run tests'
+        uses: cypress-io/github-action@v2
+
+      - name: 'Upload screenshots and videos to Slack'
+        uses: ngocsangyem/cypress-notify
+        with:
+          token: ${{ secrets.SLACK_TOKEN }}
+          channels: 'engineering-ops'
+```
+
+### Only upload when open PRs fail
+
+```yml
+on: [pull_request]
+
+jobs:
+  test-and-upload-results-on-fail:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: 'Run tests'
+        uses: cypress-io/github-action@v2
+
+      - name: 'Upload screenshots and videos to Slack'
+        uses: ngocsangyem/cypress-notify
+        if: failure()
+        with:
+          token: ${{ secrets.SLACK_TOKEN }}
+          channels: 'engineering-ops'
+```
+
+> [Read more](https://github.com/trymbill/cypress-slack-video-upload-action/blob/main/README.md)
 
 ## Setup
 ### yarn
