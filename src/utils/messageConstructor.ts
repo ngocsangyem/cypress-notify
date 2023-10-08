@@ -7,6 +7,8 @@ export const messageConstructor = ({
   channel,
   customBlocks,
   branchName,
+  actionUrl,
+  prUrl
 }: {
   headingText?: string;
   channel?: string;
@@ -15,6 +17,8 @@ export const messageConstructor = ({
   branchName: string;
   userName: string;
   userAvatar: string;
+  actionUrl: string;
+  prUrl: string;
 }) => {
   
   const messageBuilder = Message({ channel })
@@ -26,6 +30,14 @@ export const messageConstructor = ({
           text: `${Md.bold('Ref')}
           ${Md.codeInline(branchName)}`,
         }),
+        prUrl ? Blocks.Section({
+          text: `${Md.bold('Pull request')}
+          <${prUrl}>`,
+        }) : undefined,
+        actionUrl ? Blocks.Section({
+          text: `${Md.bold('Action url')}
+          <${actionUrl}>`,
+        }) : undefined,
       ),
     );
   return customBlocks

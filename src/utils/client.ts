@@ -16,10 +16,20 @@ export const sendViaBot = async(
   const { status, headingText, channel } = opts;
   const octokit = getOctokit(token);
 
-  console.log('octokit', octokit);
-  
-
   const branchName = context.ref.split('/').slice(2).join('/');
+  
+  const listPullRequests = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
+    owner: context.repo.owner,
+    repo: context.repo.repo,
+    // eslint-disable-next-line camelcase
+    commit_sha: context.sha,
+  });
+  const prs = listPullRequests.data.filter((el) => el.state === 'open');
+  const pr =
+        prs.find((el) => {
+          return context.payload.ref === `refs/heads/${el.head.ref}`;
+        }) || prs[0];
+  const repoUrl = `https://github.com/${context.repo.repo}`;
 
   return await client.chat
     .postMessage(
@@ -31,6 +41,8 @@ export const sendViaBot = async(
           branchName: branchName,
           userAvatar: '',
           userName: '',
+          actionUrl: `${repoUrl}/actions/runs/${context.runId}`,
+          prUrl: pr?.url || '',
         }) as Readonly<SlackMessageDto>
     )
     .then((response) => response)
