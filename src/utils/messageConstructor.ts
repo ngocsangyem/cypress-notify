@@ -1,25 +1,31 @@
 // https://github.com/YOU54F/cypress-plugins/blob/master/cypress-slack-reporter/src/messageConstructor.ts
-import { Message, Attachment, Blocks } from 'slack-block-builder';
+import { Message, Attachment, Blocks, Md, Elements } from 'slack-block-builder';
 import { Appendable, BlockBuilder } from 'slack-block-builder/dist/internal/index';
 import { cypressRunStatus } from '../types/Slack';
 
 export const messageConstructor = ({
   channel,
-  customBlocks
+  customBlocks,
+  branchName,
 }: {
   headingText?: string;
   channel?: string;
   status?: cypressRunStatus;
   customBlocks?: Appendable<BlockBuilder>;
+  branchName: string;
+  userName: string;
+  userAvatar: string;
 }) => {
+  
   const messageBuilder = Message({ channel })
     .attachments(
       Attachment({
-        color: '#36a64f',
+        color: '#ee5253',
       }).blocks(
         Blocks.Section({
-          text: '*Cypress Test Status:*',
-        })
+          text: `${Md.bold('Ref')}
+          ${Md.codeInline(branchName)}`,
+        }),
       ),
     );
   return customBlocks

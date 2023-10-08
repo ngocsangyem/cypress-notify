@@ -8,6 +8,7 @@ import { sendViaBot } from './utils/client';
   const token = getInput('token');
   const channels = getInput('channels');
   const workdir = getInput('workdir') || 'cypress';
+  
 
   debug(`Token: ${token}`);
   debug(`Channels: ${channels}`);
@@ -32,6 +33,7 @@ import { sendViaBot } from './utils/client';
   const result = await sendViaBot(
     { channel: channels },
     slack,
+    token,
   );
 
   const threadID = result.ts;
