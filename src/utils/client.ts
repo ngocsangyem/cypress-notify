@@ -29,7 +29,7 @@ export const sendViaBot = async(
         prs.find((el) => {
           return context.payload.ref === `refs/heads/${el.head.ref}`;
         }) || prs[0];
-  const repoUrl = `https://github.com/${context.repo.repo}`;
+  const repoUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}`;
   
 
   return await client.chat
@@ -43,7 +43,7 @@ export const sendViaBot = async(
           userAvatar: '',
           userName: '',
           actionUrl: `${repoUrl}/actions/runs/${context.runId}`,
-          prUrl: pr?.url || '',
+          prUrl: `${repoUrl}/pulls/${pr?.number}` || '',
         }) as Readonly<SlackMessageDto>
     )
     .then((response) => response)

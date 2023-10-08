@@ -31,12 +31,11 @@ export const messageConstructor = ({
           ${Md.codeInline(branchName)}`,
         }),
         prUrl ? Blocks.Section({
-          text: `${Md.bold('Pull request')}
-          <${prUrl}>`,
+          text: `${Md.bold('Pull request')} <${prUrl}>`,
         }) : undefined,
         actionUrl ? Blocks.Section({
           text: `${Md.bold('Action url')}
-          <${actionUrl}>`,
+<${actionUrl}>`,
         }) : undefined,
       ),
     );
