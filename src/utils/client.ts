@@ -16,16 +16,10 @@ export const sendViaBot = async(
   const { status, headingText, channel } = opts;
   const octokit = getOctokit(token);
 
-  const branchName = await octokit.rest.repos.getBranch({
-    ...context.repo,
-    branch: context.ref.replace('refs/heads/', ''),
-  });
+  console.log('octokit', octokit);
+  
 
-  const pullRequest = await octokit.rest.repos.getCommitComment({
-    ...context.repo,
-    // eslint-disable-next-line camelcase
-    comment_id: context.issue.number,
-  });
+  const branchName = context.ref.split('/').slice(2).join('/');
 
   return await client.chat
     .postMessage(
@@ -34,9 +28,9 @@ export const sendViaBot = async(
           headingText,
           status,
           customBlocks,
-          branchName: branchName.data.name,
-          userAvatar: pullRequest.data.user?.avatar_url ?? '',
-          userName: pullRequest.data.user?.name ?? '',
+          branchName: branchName,
+          userAvatar: '',
+          userName: '',
         }) as Readonly<SlackMessageDto>
     )
     .then((response) => response)
