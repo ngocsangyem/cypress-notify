@@ -16,13 +16,11 @@ export const messageConstructor = ({
     .attachments(
       Attachment({
         color: '#36a64f',
-      }),
-    )
-    .blocks(
-      Blocks.Section({
-        text: 'Cypress Slack Reporter'
-      }),
-      Blocks.Divider(),
+      }).blocks(
+        Blocks.Section({
+          text: '*Cypress Test Status:*',
+        })
+      ),
     );
   return customBlocks
     ? messageBuilder.blocks(...customBlocks).buildToObject()
