@@ -1,6 +1,5 @@
 import { createReadStream } from 'fs';
 import { setFailed, getInput, debug, setOutput } from '@actions/core';
-import { getOctokit, context } from '@actions/github';
 import { WebClient } from '@slack/web-api';
 import walkSync from 'walk-sync';
 import { sendViaBot } from './utils/client';
@@ -9,35 +8,14 @@ import { sendViaBot } from './utils/client';
   const token = getInput('token');
   const channels = getInput('channels');
   const workdir = getInput('workdir') || 'cypress';
+  const githubToken = getInput('github-token', { required: false }) || process.env.GITHUB_TOKEN;
   
 
-  debug(`Token: ${token}`);
   debug(`Channels: ${channels}`);
 
   debug('Initializing slack SDK');
-  const slack = new WebClient(getInput('token'));
+  const slack = new WebClient(token);
   debug('Slack SDK initialized successfully');
-
-  const octokit = getOctokit(token);
-
-  const branchName = context.ref.split('/').slice(2).join('/');
-  
-  const listPullRequests = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-    // eslint-disable-next-line camelcase
-    commit_sha: context.sha,
-  });
-  const prs = listPullRequests.data.filter((el) => el.state === 'open');
-  const pr =
-        prs.find((el) => {
-          return context.payload.ref === `refs/heads/${el.head.ref}`;
-        }) || prs[0];
-  const repoUrl = `https://github.com/${context.repo.repo}`;
-
-  debug(`Branch name: ${branchName}`);
-  debug(`PR: ${pr}`);
-  debug(`repoUrl: ${repoUrl}`);
 
   debug('Checking for screenshots from cypress');
 
@@ -55,6 +33,7 @@ import { sendViaBot } from './utils/client';
   const result = await sendViaBot(
     { channel: channels },
     slack,
+    githubToken ?? '',
   );
 
   const threadID = result.ts;
