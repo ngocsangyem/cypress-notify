@@ -38,11 +38,11 @@ ${Md.codeInline(branchName)}`,
         }),
         prUrl ? Blocks.Section({
           text: `${Md.bold('Pull request')}
-<${prUrl}>`,
+${prUrl}`,
         }) : undefined,
         actionUrl ? Blocks.Section({
           text: `${Md.bold('Action url')}
-<${actionUrl}>`,
+${actionUrl}`,
         }) : undefined,
       ),
     );
