@@ -8,7 +8,6 @@ import { sendViaBot } from './utils/client';
   const token = getInput('token');
   const channels = getInput('channels');
   const workdir = getInput('workdir') || 'cypress';
-  const githubToken = getInput('github-token', { required: false }) || process.env.GITHUB_TOKEN;
   const messageText =
       getInput('message-text') ||
       "A Cypress test just finished. I've placed the screenshots and videos in this thread. Good pie!";
@@ -35,7 +34,6 @@ import { sendViaBot } from './utils/client';
   const result = await sendViaBot(
     { channel: channels, headingText: messageText },
     slack,
-    githubToken ?? '',
   );
 
   const threadID = result.ts;
