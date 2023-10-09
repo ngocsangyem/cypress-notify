@@ -324,7 +324,7 @@
   dependencies:
     "@octokit/types" "^6.0.3"
 
-"@octokit/core@^3.6.0":
+"@octokit/core@^3.5.1", "@octokit/core@^3.6.0":
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/@octokit/core/-/core-3.6.0.tgz#3376cb9f3008d9b3d110370d90e0a1fcd5fe6085"
   integrity sha512-7RKRKuA4xTjMhY+eG3jthb3hlZCsOwg3rztWh75Xc+ShDWOfDDATWbeZpAHBNRpm4Tv9WgBMOy1zEJYXG6NJ7Q==
@@ -365,7 +365,7 @@
   resolved "https://registry.yarnpkg.com/@octokit/openapi-types/-/openapi-types-14.0.0.tgz#949c5019028c93f189abbc2fb42f333290f7134a"
   integrity sha512-HNWisMYlR8VCnNurDU6os2ikx0s0VyEjDYHNS/h4cgb8DeOxQ0n72HyinUtdDVxJhFy3FWLGl0DJhfEWk3P5Iw==
 
-"@octokit/plugin-paginate-rest@^2.17.0":
+"@octokit/plugin-paginate-rest@^2.16.8", "@octokit/plugin-paginate-rest@^2.17.0":
   version "2.21.3"
   resolved "https://registry.yarnpkg.com/@octokit/plugin-paginate-rest/-/plugin-paginate-rest-2.21.3.tgz#7f12532797775640dbb8224da577da7dc210c87e"
   integrity sha512-aCZTEf0y2h3OLbrgKkrfFdjRL6eSOo8komneVQJnYecAxIej7Bafor2xhuDJOIFau4pk0i/P28/XgtbyPF0ZHw==
@@ -379,7 +379,12 @@
   dependencies:
     "@octokit/types" "^8.0.0"
 
-"@octokit/plugin-rest-endpoint-methods@^5.13.0":
+"@octokit/plugin-request-log@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@octokit/plugin-request-log/-/plugin-request-log-1.0.4.tgz#5e50ed7083a613816b1e4a28aeec5fb7f1462e85"
+  integrity sha512-mLUsMkgP7K/cnFEw07kWqXGF5LKrOkD+lhCrKvPHXWDywAwuDUeDwWBpc69XK3pNX0uKiVt8g5z96PJ6z9xCFA==
+
+"@octokit/plugin-rest-endpoint-methods@^5.12.0", "@octokit/plugin-rest-endpoint-methods@^5.13.0":
   version "5.16.2"
   resolved "https://registry.yarnpkg.com/@octokit/plugin-rest-endpoint-methods/-/plugin-rest-endpoint-methods-5.16.2.tgz#7ee8bf586df97dd6868cf68f641354e908c25342"
   integrity sha512-8QFz29Fg5jDuTPXVtey05BLm7OB+M8fnvE64RNegzX7U+5NUXcOcnpTIK0YfSHBg8gYd0oxIq3IZTe9SfPZiRw==
@@ -415,6 +420,16 @@
     is-plain-object "^5.0.0"
     node-fetch "^2.6.7"
     universal-user-agent "^6.0.0"
+
+"@octokit/rest@^18.12.0":
+  version "18.12.0"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-18.12.0.tgz#f06bc4952fc87130308d810ca9d00e79f6988881"
+  integrity sha512-gDPiOHlyGavxr72y0guQEhLsemgVjwRePayJ+FcKc2SJqKUbxbkvf5kAZEWA/MKvsfYlQAMVzNJE3ezQcxMJ2Q==
+  dependencies:
+    "@octokit/core" "^3.5.1"
+    "@octokit/plugin-paginate-rest" "^2.16.8"
+    "@octokit/plugin-request-log" "^1.0.4"
+    "@octokit/plugin-rest-endpoint-methods" "^5.12.0"
 
 "@octokit/types@^6.0.3", "@octokit/types@^6.16.1", "@octokit/types@^6.39.0", "@octokit/types@^6.40.0":
   version "6.41.0"
@@ -1912,6 +1927,20 @@ get-symbol-description@^1.0.0:
   dependencies:
     call-bind "^1.0.2"
     get-intrinsic "^1.1.1"
+
+gh-avatar@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/gh-avatar/-/gh-avatar-3.0.0.tgz#6616bee4870a1e126be8cb66d62c8262cf8b9475"
+  integrity sha512-aKZmEyB3mjQP37R0bs/ccFTPjAeN7X3zgCGFs5FND/ZDk2lc5QmsaWI0Tpz+Qm7287e6IojwdETOSm/6EEHBhQ==
+  dependencies:
+    gh-user "^6.0.0"
+
+gh-user@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/gh-user/-/gh-user-6.0.0.tgz#6e63cd393574824b7d4d1dc8139d350102f8ac60"
+  integrity sha512-8ZsRif7x2nbefX3IIIQYUkwqa0r3su9P+uahRS/WAz0tnql0idHkRjLR6VEsr81+vk9cKoDlSsvs4GiZC15vlA==
+  dependencies:
+    "@octokit/rest" "^18.12.0"
 
 git-raw-commits@^2.0.0:
   version "2.0.11"

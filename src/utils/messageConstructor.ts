@@ -10,6 +10,7 @@ export const messageConstructor = ({
   actionUrl,
   prUrl,
   userName,
+  userAvatar,
 }: {
   headingText?: string;
   channel?: string;
@@ -27,6 +28,10 @@ export const messageConstructor = ({
       Attachment({
         color: '#ee5253',
       }).blocks(
+        Blocks.Image({
+          imageUrl: userAvatar || '',
+          altText: userName,
+        }),
         Blocks.Section({
           text: `${Md.italic(userName)}`,
         }),
