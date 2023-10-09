@@ -42,7 +42,7 @@ export const sendViaBot = async(
           status,
           customBlocks,
           branchName: getBranch(context),
-          userAvatar: userAvatar,
+          userAvatar: `${userAvatar}&size=32`,
           userName: getActor(),
           actionUrl: `${repoUrl}/actions/runs/${context.runId}`,
           prUrl: pr?.number
