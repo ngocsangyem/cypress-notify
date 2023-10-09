@@ -21,6 +21,7 @@ export const sendViaBot = async(
 
   const userAvatar = await ghAvatar(getActor());
   const repoUrl = `https://github.com/${getRepository(context)}`;
+  const branchName = context.ref.split('/').slice(2).join('/');
   
 
   return await client.chat
@@ -30,7 +31,7 @@ export const sendViaBot = async(
           headingText,
           status,
           customBlocks,
-          branchName: getPrBranch(context),
+          branchName: getPrBranch(context) || branchName,
           userAvatar: `${userAvatar}&size=32`,
           userName: getActor(),
           actionUrl: `<${repoUrl}/actions/runs/${context.runId} | #${context.runId}>`,
