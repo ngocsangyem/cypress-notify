@@ -8,7 +8,8 @@ export const messageConstructor = ({
   customBlocks,
   branchName,
   actionUrl,
-  prUrl
+  prUrl,
+  userName,
 }: {
   headingText?: string;
   channel?: string;
@@ -27,11 +28,15 @@ export const messageConstructor = ({
         color: '#ee5253',
       }).blocks(
         Blocks.Section({
+          text: `${Md.italic(userName)}`,
+        }),
+        Blocks.Section({
           text: `${Md.bold('Ref')}
-          ${Md.codeInline(branchName)}`,
+${Md.codeInline(branchName)}`,
         }),
         prUrl ? Blocks.Section({
-          text: `${Md.bold('Pull request')} <${prUrl}>`,
+          text: `${Md.bold('Pull request')}
+<${prUrl}>`,
         }) : undefined,
         actionUrl ? Blocks.Section({
           text: `${Md.bold('Action url')}

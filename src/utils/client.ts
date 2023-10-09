@@ -1,5 +1,6 @@
 import { getOctokit, context } from '@actions/github';
 import { type WebClient } from '@slack/web-api';
+import { Utils, ContextHelper } from '@technote-space/github-action-helper';
 import { BlockBuilder, SlackMessageDto } from 'slack-block-builder';
 import { Appendable } from 'slack-block-builder/dist/internal/index';
 import {
@@ -15,8 +16,8 @@ export const sendViaBot = async(
 ) => {
   const { status, headingText, channel } = opts;
   const octokit = getOctokit(token);
-
-  const branchName = context.ref.split('/').slice(2).join('/');
+  const { getBranch, getActor } = Utils;
+  const { getRepository, isPr } = ContextHelper;
   
   const listPullRequests = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
     owner: context.repo.owner,
@@ -29,7 +30,9 @@ export const sendViaBot = async(
         prs.find((el) => {
           return context.payload.ref === `refs/heads/${el.head.ref}`;
         }) || prs[0];
-  const repoUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}`;
+  const repoUrl = `https://github.com/${getRepository(context)}`;
+
+  context;
   
 
   return await client.chat
@@ -39,11 +42,13 @@ export const sendViaBot = async(
           headingText,
           status,
           customBlocks,
-          branchName: branchName,
+          branchName: getBranch(context),
           userAvatar: '',
-          userName: '',
+          userName: getActor(),
           actionUrl: `${repoUrl}/actions/runs/${context.runId}`,
-          prUrl: `${repoUrl}/pulls/${pr?.number}` || '',
+          prUrl: isPr(context)
+            ? `${repoUrl}/pulls/${pr?.number}`
+            : '',
         }) as Readonly<SlackMessageDto>
     )
     .then((response) => response)
