@@ -1,5 +1,5 @@
 // https://github.com/YOU54F/cypress-plugins/blob/master/cypress-slack-reporter/src/messageConstructor.ts
-import { Message, Attachment, Blocks, Md,  Elements } from 'slack-block-builder';
+import { Message, Attachment, Blocks, Md } from 'slack-block-builder';
 import { Appendable, BlockBuilder } from 'slack-block-builder/dist/internal/index';
 import { cypressRunStatus } from '../types/Slack';
 
