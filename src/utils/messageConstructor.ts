@@ -1,5 +1,5 @@
 // https://github.com/YOU54F/cypress-plugins/blob/master/cypress-slack-reporter/src/messageConstructor.ts
-import { Message, Attachment, Blocks, Md } from 'slack-block-builder';
+import { Message, Attachment, Blocks, Md, Elements } from 'slack-block-builder';
 import { Appendable, BlockBuilder } from 'slack-block-builder/dist/internal/index';
 import { cypressRunStatus } from '../types/Slack';
 
@@ -28,10 +28,10 @@ export const messageConstructor = ({
       Attachment({
         color: '#ee5253',
       }).blocks(
-        Blocks.Context().elements([`![${userName}](${userAvatar})`, `${userName}`]),
-        Blocks.Section({
-          text: `${Md.italic(userName)}`,
-        }),
+        Blocks.Context().elements(
+          Elements.Img({ imageUrl: userAvatar, altText: userName }),
+          `${userName}`,
+        ),
         Blocks.Section({
           text: `${Md.bold('Ref')}
 ${Md.codeInline(branchName)}`,

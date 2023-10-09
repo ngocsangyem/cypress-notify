@@ -44,9 +44,9 @@ export const sendViaBot = async(
           branchName: getBranch(context),
           userAvatar: `${userAvatar}&size=32`,
           userName: getActor(),
-          actionUrl: `${repoUrl}/actions/runs/${context.runId}`,
+          actionUrl: `<${repoUrl}/actions/runs/${context.runId} | #${context.runId}>`,
           prUrl: pr?.number
-            ? `${repoUrl}/pulls/${pr?.number}`
+            ? `<${repoUrl}/pulls/${pr?.number} | #${pr?.number}>`
             : '',
         }) as Readonly<SlackMessageDto>
     )
