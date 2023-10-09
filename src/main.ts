@@ -51,7 +51,8 @@ import { sendViaBot } from './utils/client';
           file: createReadStream(`${workdir}/${screenshot}`),
           // eslint-disable-next-line camelcase
           thread_ts: threadID,
-          channels: channelId
+          // eslint-disable-next-line camelcase
+          channel_id: channelId,
         });
       })
     );

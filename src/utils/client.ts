@@ -15,13 +15,13 @@ export const sendViaBot = async(
   customBlocks?: Appendable<BlockBuilder>,
 ) => {
   const { status, headingText, channel } = opts;
-  const { getActor } = Utils;
+  const { getActor, getPrBranch } = Utils;
   const { getRepository } = ContextHelper;
   
 
   const userAvatar = await ghAvatar(getActor());
   const repoUrl = `https://github.com/${getRepository(context)}`;
-  const branchName = context.ref.split('/').slice(2).join('/');
+  
 
   return await client.chat
     .postMessage(
@@ -30,7 +30,7 @@ export const sendViaBot = async(
           headingText,
           status,
           customBlocks,
-          branchName: branchName,
+          branchName: getPrBranch(context),
           userAvatar: `${userAvatar}&size=32`,
           userName: getActor(),
           actionUrl: `<${repoUrl}/actions/runs/${context.runId} | #${context.runId}>`,
