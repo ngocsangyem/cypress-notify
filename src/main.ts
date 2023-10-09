@@ -46,13 +46,12 @@ import { sendViaBot } from './utils/client';
       screenshots.map(async screenshot => {
         debug(`Uploading ${screenshot}`);
 
-        await slack.files.uploadV2({
+        await slack.files.upload({
           filename: screenshot,
           file: createReadStream(`${workdir}/${screenshot}`),
           // eslint-disable-next-line camelcase
           thread_ts: threadID,
-          // eslint-disable-next-line camelcase
-          channel_id: channelId,
+          channels: channelId,
         });
       })
     );
