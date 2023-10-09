@@ -8,8 +8,9 @@ import { sendViaBot } from './utils/client';
   const token = getInput('token');
   const channels = getInput('channels');
   const workdir = getInput('workdir') || 'cypress';
-  const githubToken = getInput('github-token', { required: false }) || process.env.GITHUB_TOKEN;
-  
+  const messageText =
+      getInput('message-text') ||
+      "A Cypress test just finished. I've placed the screenshots and videos in this thread. Good pie!";
 
   debug(`Channels: ${channels}`);
 
@@ -31,9 +32,8 @@ import { sendViaBot } from './utils/client';
 
   debug('Sending initial slack message');
   const result = await sendViaBot(
-    { channel: channels },
+    { channel: channels, headingText: messageText },
     slack,
-    githubToken ?? '',
   );
 
   const threadID = result.ts;
@@ -46,7 +46,7 @@ import { sendViaBot } from './utils/client';
       screenshots.map(async screenshot => {
         debug(`Uploading ${screenshot}`);
 
-        await slack.files.upload({
+        await slack.files.uploadV2({
           filename: screenshot,
           file: createReadStream(`${workdir}/${screenshot}`),
           // eslint-disable-next-line camelcase

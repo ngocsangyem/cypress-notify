@@ -11,6 +11,7 @@ export const messageConstructor = ({
   prUrl,
   userName,
   userAvatar,
+  headingText
 }: {
   headingText?: string;
   channel?: string;
@@ -23,11 +24,14 @@ export const messageConstructor = ({
   prUrl: string;
 }) => {
   
-  const messageBuilder = Message({ channel })
+  const messageBuilder = Message({ channel, text: headingText })
     .attachments(
       Attachment({
         color: '#ee5253',
       }).blocks(
+        Blocks.Section({
+          text: headingText ?? 'Cypress Slack Reporter'
+        }),
         Blocks.Context().elements(
           Elements.Img({ imageUrl: userAvatar, altText: userName }),
           `${userName}`,

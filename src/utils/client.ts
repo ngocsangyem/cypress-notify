@@ -1,4 +1,4 @@
-import { getOctokit, context } from '@actions/github';
+import { context } from '@actions/github';
 import { type WebClient } from '@slack/web-api';
 import { Utils, ContextHelper } from '@technote-space/github-action-helper';
 import ghAvatar from 'gh-avatar';
@@ -12,27 +12,15 @@ import { messageConstructor } from './messageConstructor';
 export const sendViaBot = async(
   opts: CypressSlackReporterChatBotOpts,
   client: WebClient,
-  token: string,
   customBlocks?: Appendable<BlockBuilder>,
 ) => {
   const { status, headingText, channel } = opts;
-  const octokit = getOctokit(token);
-  const { getBranch, getActor } = Utils;
+  const { getActor } = Utils;
   const { getRepository } = ContextHelper;
-  
-  const listPullRequests = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-    // eslint-disable-next-line camelcase
-    commit_sha: context.sha,
-  });
+
   const userAvatar = await ghAvatar(getActor());
-  const prs = listPullRequests.data.filter((el) => el.state === 'open');
-  const pr =
-        prs.find((el) => {
-          return context.payload.ref === `refs/heads/${el.head.ref}`;
-        }) || prs[0];
   const repoUrl = `https://github.com/${getRepository(context)}`;
+  const branchName = context.ref.split('/').slice(2).join('/');
 
   return await client.chat
     .postMessage(
@@ -41,12 +29,12 @@ export const sendViaBot = async(
           headingText,
           status,
           customBlocks,
-          branchName: getBranch(context),
+          branchName: branchName,
           userAvatar: `${userAvatar}&size=32`,
           userName: getActor(),
           actionUrl: `<${repoUrl}/actions/runs/${context.runId} | #${context.runId}>`,
-          prUrl: pr?.number
-            ? `<${repoUrl}/pulls/${pr?.number} | #${pr?.number}>`
+          prUrl: context.issue.number
+            ? `<${repoUrl}/pulls/${context.issue.number} | #${context.issue.number}>`
             : '',
         }) as Readonly<SlackMessageDto>
     )
