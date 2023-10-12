@@ -34,16 +34,13 @@ export const messageConstructor = ({
           `${userName}`,
         ),
         Blocks.Section({
-          text: `${Md.bold('Ref')}
-${Md.codeInline(branchName)}`,
+          text: `${Md.bold('Ref')}: ${Md.codeInline(branchName)}`,
         }),
         prUrl ? Blocks.Section({
-          text: `${Md.bold('Pull request')}
-${prUrl}`,
+          text: `${Md.bold('Pull request')}: ${prUrl}`,
         }) : undefined,
         actionUrl ? Blocks.Section({
-          text: `${Md.bold('Action url')}
-${actionUrl}`,
+          text: `${Md.bold('Action url')}: ${actionUrl}`,
         }) : undefined,
       ),
     );
