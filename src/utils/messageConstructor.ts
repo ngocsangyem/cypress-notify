@@ -29,10 +29,10 @@ export const messageConstructor = ({
       Attachment({
         color: '#ee5253',
       }).blocks(
-        Blocks.Context().elements(
+        userName && userAvatar ? Blocks.Context().elements(
           Elements.Img({ imageUrl: userAvatar, altText: userName }),
           `${userName}`,
-        ),
+        ) : undefined,
         Blocks.Section({
           text: `${Md.bold('Ref')}: ${Md.codeInline(branchName)}`,
         }),
