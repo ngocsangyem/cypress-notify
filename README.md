@@ -14,7 +14,12 @@
 <summary>Details</summary>
 
 - [Inputs](#inputs)
+  - [`token`](#token)
+  - [`channels`](#channels)
+  - [`workdir`](#workdir)
 - [Examples](#examples)
+  - [Upload results after every push](#upload-results-after-every-push)
+  - [Only upload when open PRs fail](#only-upload-when-open-prs-fail)
 - [Setup](#setup)
   - [yarn](#yarn)
   - [npm](#npm)
