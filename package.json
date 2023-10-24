@@ -74,7 +74,8 @@
     "nock": "^13.3.6",
     "rollup": "^4.1.4",
     "typescript": "^5.2.2",
-    "vitest": "^0.34.6"
+    "vitest": "^0.34.6",
+    "tslib": "^2.6.2"
   },
   "publishConfig": {
     "access": "public"
