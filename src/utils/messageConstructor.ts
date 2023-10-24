@@ -11,7 +11,8 @@ export const messageConstructor = ({
   prUrl,
   userName,
   userAvatar,
-  headingText
+  headingText,
+  prTitle,
 }: {
   headingText?: string;
   channel?: string;
@@ -22,6 +23,7 @@ export const messageConstructor = ({
   userAvatar: string;
   actionUrl: string;
   prUrl: string;
+  prTitle: string;
 }) => {
   
   const messageBuilder = Message({ channel, text: headingText })
@@ -39,7 +41,7 @@ export const messageConstructor = ({
         ]),
         prUrl ? Blocks.Section().fields([
           `${Md.bold('Pull request')}`,
-          `${prUrl}`
+          `${prUrl} - ${prTitle}`
         ]) : undefined,
         actionUrl ? Blocks.Section().fields([
           `${Md.bold('Action url')}`,

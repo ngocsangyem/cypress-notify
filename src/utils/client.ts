@@ -22,6 +22,7 @@ export const sendViaBot = async(
   const userAvatar = await ghAvatar(getActor());
   const repoUrl = `https://github.com/${getRepository(context)}`;
   const branchName = context.ref.split('/').slice(2).join('/');
+  const pullRequestTitle = context?.payload?.pull_request?.title;
   
 
   return await client.chat
@@ -38,6 +39,7 @@ export const sendViaBot = async(
           prUrl: context.issue.number
             ? `<${repoUrl}/pull/${context.issue.number} | #${context.issue.number}>`
             : '',
+          prTitle: context.issue.number ? pullRequestTitle : '',
         }) as Readonly<SlackMessageDto>
     )
     .then((response) => response)
