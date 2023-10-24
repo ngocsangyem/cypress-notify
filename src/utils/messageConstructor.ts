@@ -33,15 +33,18 @@ export const messageConstructor = ({
           Elements.Img({ imageUrl: userAvatar, altText: userName }),
           `${userName}`,
         ) : undefined,
-        Blocks.Section({
-          text: `${Md.bold('Ref')}: ${Md.codeInline(branchName)}`,
-        }),
-        prUrl ? Blocks.Section({
-          text: `${Md.bold('Pull request')}: ${prUrl}`,
-        }) : undefined,
-        actionUrl ? Blocks.Section({
-          text: `${Md.bold('Action url')}: ${actionUrl}`,
-        }) : undefined,
+        Blocks.Section().fields([
+          `${Md.bold('Ref')}`,
+          `${Md.codeInline(branchName)}`
+        ]),
+        prUrl ? Blocks.Section().fields([
+          `${Md.bold('Pull request')}`,
+          `${prUrl}`
+        ]) : undefined,
+        actionUrl ? Blocks.Section().fields([
+          `${Md.bold('Action url')}`,
+          `${actionUrl}`
+        ]) : undefined,
       ),
     );
   return customBlocks
