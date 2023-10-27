@@ -1,6 +1,6 @@
 {
   "name": "cypress-notify",
-  "version": "1.1.9",
+  "version": "1.1.12",
   "description": "Template for GitHub actions.",
   "keywords": [
     "github",
